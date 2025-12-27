@@ -26,22 +26,26 @@ export function Header() {
     >
       <nav className="max-w-7xl mx-auto px-6 md:px-12 py-4">
         <div className="flex items-center justify-between">
-        <motion.a
-  href="#"
-  whileHover={{ scale: 1.05 }}
-  transition={{ type: "spring", stiffness: 300 }}
-  className="
-    text-2xl md:text-3xl lg:text-4xl
-    font-extrabold tracking-tight
-    bg-gradient-to-r from-emerald-400 via-teal-300 to-emerald-500
-    bg-clip-text text-transparent
-    drop-shadow-[0_0_20px_rgba(16,185,129,0.35)]
-    hover:drop-shadow-[0_0_30px_rgba(16,185,129,0.6)]
-    transition-all
-  "
->
-  RJ
-</motion.a>
+          {/* <motion.a
+            href="#"
+            whileHover={{ scale: 1.05 }}
+            transition={{ type: "spring", stiffness: 300 }}
+            className="
+              text-2xl md:text-3xl lg:text-4xl
+              font-extrabold tracking-tight
+              text-primary
+              transition-all
+            "
+          >
+            RJ
+          </motion.a> */}
+          <div className="relative w-15 h-15 flex items-center justify-center bg-gray-900 rounded-2xl border-2 border-emerald-400 shadow-[0_0_30px_rgba(16,185,129,0.35)]">
+  <span className="font-bold text-3xl text-transparent bg-gradient-to-br from-emerald-400 to-teal-400 bg-clip-text">
+    RJ
+  </span>
+</div>
+
+
 
 
           <div className="hidden md:flex items-center gap-8">

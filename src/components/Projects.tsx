@@ -6,48 +6,74 @@ import { Github, ExternalLink } from "lucide-react";
 
 const projects = [
   {
-    title: "DietSync — AI Nutrition Platform",
+    title: "DietSync — AI-Driven Meal Planning Platform",
     description:
-      "AI-powered personalized meal planning platform based on health conditions, goals, and dietary preferences.",
-    tech: ["React", "Node.js", "MongoDB", "ML", "REST APIs"],
-    images: [
-      "/projects/dietsync-1.png",
-      "/projects/dietsync-2.png",
-      "/projects/dietsync-3.png",
+      "Full-stack AI-powered nutrition platform for personalized meal planning, weekly scheduling, and grocery list generation. Built to support 500+ user profiles with secure authentication and optimized backend performance.",
+    tech: [
+      "React",
+      "Node.js",
+      "Express",
+      "MongoDB",
+      "JWT",
+      "Google OAuth",
+      "REST APIs",
     ],
-    github: "https://github.com",
-    live: "https://example.com",
+    images: [
+      "./projects/dietsync-1.png",
+      "./projects/dietsync-2.png",
+      "./projects/dietsync-3.png",
+    ],
+    github: "https://github.com/radhikajindal13/DietSync",
+    live: "https://dietsync.vercel.app/",
   },
   {
-    title: "Portfolio Website",
+    title: "QuizIT — Scalable Real-Time Quiz Platform",
     description:
-      "Modern, animated personal portfolio built with a focus on performance, accessibility, and clean UI.",
-    tech: ["React", "Tailwind CSS", "Motion", "Vercel"],
-    images: [
-      "/projects/portfolio-1.png",
-      "/projects/portfolio-2.png",
+      "MERN-based real-time quiz platform supporting 100+ concurrent users. Features role-based authentication, real-time analytics dashboards, and low-latency result processing.",
+    tech: [
+      "React",
+      "Node.js",
+      "Express",
+      "MongoDB",
+      "JWT",
+      "REST APIs",
+      "Vercel",
+      "Render",
     ],
-    github: "https://github.com",
-    live: "https://example.com",
+    images: [
+      "./projects/quizit-1.png",
+      "./projects/quizit-2.png",
+      "./projects/quizit-3.png"
+    ],
+    github: "https://github.com/radhikajindal13/quizit",
+    live: "https://quizit-six.vercel.app/",
   },
   {
-    title: "Full-Stack Web Application",
+    title: "FlixHub — Movie Discovery & Recommendation Platform",
     description:
-      "End-to-end web application with authentication, protected routes, and backend integration.",
-    tech: ["React", "Node.js", "Express", "MongoDB"],
-    images: [
-      "/projects/app-1.png",
-      "/projects/app-2.png",
+      "Scalable movie discovery platform with real-time search, filtering, and genre-based recommendations. Optimized frontend performance using Redux Toolkit and responsive UI design.",
+    tech: [
+      "React",
+      "Redux Toolkit",
+      "TMDB API",
+      "Material UI",
     ],
-    github: "https://github.com",
-    live: "https://example.com",
+    images: [
+      "./projects/flixhub-1.png",
+      "./projects/flixhub-2.png"
+    ],
+    github: "https://github.com/radhikajindal13/flixhub",
+    live: "https://flixhub-movies.vercel.app/",
   },
 ];
+
 
 /* ================= COMPONENT ================= */
 
 export function Projects() {
   const [isVisible, setIsVisible] = useState(false);
+  
+  
   const sectionRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
@@ -59,7 +85,78 @@ export function Projects() {
     if (sectionRef.current) observer.observe(sectionRef.current);
     return () => observer.disconnect();
   }, []);
-
+  
+  
+  // const [selectedImage, setSelectedImage] = useState<number[]>(
+  //   projects.map(() => 0)
+  // );
+  // const [slideIndex, setSlideIndex] = useState<number[]>(
+  //   projects.map(() => 0)
+  // );
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     setSlideIndex((prev) =>
+  //       prev.map((idx, i) => (idx + 1) % projects[i].images.length)
+  //     );
+  //   }, 4000); // calm & readable
+  
+  //   return () => clearInterval(interval);
+  // }, []);
+  const [currentIndex, setCurrentIndex] = useState<number[]>(
+    projects.map(() => 0)
+  );
+  
+  const [isResetting, setIsResetting] = useState<boolean[]>(
+    projects.map(() => false)
+  );
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentIndex((prev) =>
+        prev.map((idx, i) => {
+          const lastIndex = projects[i].images.length - 1;
+  
+          // If NOT last image → slide forward
+          if (idx < lastIndex) {
+            return idx + 1;
+          }
+  
+          // If last image → stay (do nothing here)
+          return idx;
+        })
+      );
+    }, 4000); // slide every 4s
+  
+    return () => clearInterval(interval);
+  }, []);
+  useEffect(() => {
+    currentIndex.forEach((idx, i) => {
+      const lastIndex = projects[i].images.length - 1;
+  
+      if (idx === lastIndex) {
+        const timeout = setTimeout(() => {
+          setIsResetting((prev) =>
+            prev.map((v, j) => (j === i ? true : v))
+          );
+          setCurrentIndex((prev) =>
+            prev.map((v, j) => (j === i ? 0 : v))
+          );
+  
+          // turn animation back on
+          setTimeout(() => {
+            setIsResetting((prev) =>
+              prev.map((v, j) => (j === i ? false : v))
+            );
+          }, 50);
+        }, 3000); // 👈 stays on last image for 3s
+  
+        return () => clearTimeout(timeout);
+      }
+    });
+  }, [currentIndex]);
+    
+  
+        
+  
   return (
     <section ref={sectionRef} id="projects" className="py-24 px-6 md:px-12">
       <div className="max-w-5xl mx-auto">
@@ -89,18 +186,64 @@ export function Projects() {
               transition={{ duration: 0.6, delay: index * 0.15 }}
             >
               {/* ===== Image Slider ===== */}
-              <div className="relative overflow-hidden rounded-xl border border-border">
-                <div className="flex animate-slide">
-                  {[...project.images, project.images[0]].map((img, i) => (
-                    <img
-                      key={i}
-                      src={img}
-                      alt={project.title}
-                      className="w-full flex-shrink-0 object-cover"
-                    />
-                  ))}
-                </div>
-              </div>
+              <div className="space-y-4">
+  {/* MAIN IMAGE */}
+  <div className="relative overflow-hidden rounded-xl border border-border">
+    <div className="relative w-full aspect-[16/9] bg-black/20">
+      <motion.div
+        className="flex h-full"
+        animate={{
+          x: `-${currentIndex[index] * 100}%`,
+        }}
+        transition={
+          isResetting[index]
+            ? { duration: 0 }
+            : { duration: 0.8, ease: "easeInOut" }
+        }
+      >
+        {project.images.map((img) => (
+          <div
+            key={img}
+            className="w-full flex-shrink-0 flex items-center justify-center"
+          >
+            <img
+              src={img}
+              alt={project.title}
+              className="max-w-full max-h-full object-contain"
+            />
+          </div>
+        ))}
+      </motion.div>
+    </div>
+  </div>
+
+  {/* THUMBNAILS */}
+  <div className="flex gap-3">
+    {project.images.map((img, imgIndex) => (
+      <button
+        key={img}
+        onClick={() =>
+          setCurrentIndex((prev) =>
+            prev.map((v, i) => (i === index ? imgIndex : v))
+          )
+        }
+        className={`h-14 w-20 rounded-lg overflow-hidden border transition
+          ${
+            currentIndex[index] === imgIndex
+              ? "border-primary"
+              : "border-border opacity-60 hover:opacity-100"
+          }`}
+      >
+        <img
+          src={img}
+          alt=""
+          className="h-full w-full object-contain"
+        />
+      </button>
+    ))}
+  </div>
+</div>
+
 
               {/* ===== Content ===== */}
               <div>
@@ -148,7 +291,7 @@ export function Projects() {
       </div>
 
       {/* ===== Slider Animation ===== */}
-      <style>{`
+      {/* <style>{`
         .animate-slide {
           width: 100%;
           animation: slide 12s linear infinite;
@@ -158,7 +301,7 @@ export function Projects() {
           0% { transform: translateX(0); }
           100% { transform: translateX(-100%); }
         }
-      `}</style>
+      `}</style> */}
     </section>
   );
 }

@@ -140,19 +140,40 @@ export function Hero() {
             animate={{ opacity: 1 }}
             transition={{ delay: 0.9, duration: 0.8 }}
           >
-            <Github className="w-6 h-6 text-muted-foreground hover:text-primary transition-colors cursor-pointer" />
-            <Linkedin className="w-6 h-6 text-muted-foreground hover:text-primary transition-colors cursor-pointer" />
-            <Mail className="w-6 h-6 text-muted-foreground hover:text-primary transition-colors cursor-pointer" />
+            <div className="flex gap-4">
+              <a
+                href="https://github.com/radhikajindal13"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="GitHub"
+              >
+                <Github className="w-6 h-6 text-muted-foreground hover:text-primary transition-colors" />
+              </a>
+
+              <a
+                href="https://www.linkedin.com/in/radhika-jindal-1b5a7a258/"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="LinkedIn"
+              >
+                <Linkedin className="w-6 h-6 text-muted-foreground hover:text-primary transition-colors" />
+              </a>
+
+              <a href="mailto:radhikajindal1329@gmail.com" aria-label="Email">
+                <Mail className="w-6 h-6 text-muted-foreground hover:text-primary transition-colors" />
+              </a>
+            </div>
+
           </motion.div>
         </motion.div>
 
-        {/* RIGHT — IMAGE */}
         <motion.div
-          className="hidden lg:flex justify-center"
+          className="hidden lg:flex flex-col items-center gap-6"
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.4, duration: 0.8 }}
         >
+          {/* Profile Image */}
           <img
             src="/img.png"
             alt="Radhika Jindal"
@@ -163,9 +184,28 @@ export function Hero() {
               border border-border
               shadow-2xl
             "
-/>
+          />
 
+          {/* Resume Button */}
+          <a
+            href="/Radhika_Jindal_Resume.pdf"
+            download
+            className="
+              inline-flex items-center justify-center
+              px-6 py-3
+              text-sm font-semibold
+              text-background
+              bg-primary
+              rounded-lg
+              hover:scale-105
+              transition-all
+              hover:shadow-lg hover:shadow-primary/30
+            "
+          >
+            Download Resume
+          </a>
         </motion.div>
+
       </div>
     </section>
   );

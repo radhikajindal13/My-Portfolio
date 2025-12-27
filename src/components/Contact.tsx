@@ -32,13 +32,28 @@ export function Contact() {
     };
   }, []);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Handle form submission
-    console.log("Form submitted:", formData);
-    // Reset form
-    setFormData({ name: "", email: "", message: "" });
-  };
+const handleSubmit = (e: React.FormEvent) => {
+  e.preventDefault();
+
+  const subject = `New Contact Message from ${formData.name}`;
+  const body = `
+Name: ${formData.name}
+Email: ${formData.email}
+
+Message:
+${formData.message}
+  `;
+
+  const mailtoLink = `mailto:deepakvashisth2103@gmail.com?subject=${encodeURIComponent(
+    subject
+  )}&body=${encodeURIComponent(body)}`;
+
+  window.location.href = mailtoLink;
+
+  // Reset form
+  setFormData({ name: "", email: "", message: "" });
+};
+
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({
